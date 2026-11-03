@@ -6,6 +6,7 @@ from prompt_list import *
 import json
 import time
 import openai
+import ast
 import re
 from sentence_transformers import util
 from sentence_transformers import SentenceTransformer
@@ -64,7 +65,7 @@ def select_relations(string, entity_id, head_relations, tail_relations):
         string = string[last_brace_l:last_brace_r+1]
 
     relations=[]
-    rel_list = eval(string.strip())
+    rel_list = ast.literal_eval(string.strip())
     for relation in rel_list:
         if relation in head_relations:
             relations.append({"entity": entity_id, "relation": relation, "head": True})
@@ -233,7 +234,7 @@ def entity_condition_prune(question, total_entities_id, total_relations, total_c
                         result = result[last_brace_l:last_brace_r+1]
                     
                     try:
-                        result = eval(result.strip())
+                        result = ast.literal_eval(result.strip())
                     except:
                         result = result.strip().strip("[").strip("]").split(', ')
                         result = [x.strip("'") for x in result]
