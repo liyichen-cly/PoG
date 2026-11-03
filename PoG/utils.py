@@ -1,3 +1,4 @@
+import ast
 from prompt_list import *
 import json
 import time
@@ -82,7 +83,7 @@ def extract_add_ent(string):
     last_brace_p = string.rfind(']')
     string = string[first_brace_p:last_brace_p+1]
     try:
-        new_string = eval(string)
+        new_string = ast.literal_eval(string)
     except:
         s_list = string.split('\', \'')
         if len(s_list) == 1:
